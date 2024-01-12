@@ -1,7 +1,7 @@
 # Chest X-ray Classification Web App
 
 ## Overview
-This web application is designed to classify chest X-ray images into three categories: 'covid', 'normal', and 'pneumonia'. It uses a Convolutional Neural Network (CNN) built with TensorFlow and integrated into a Flask web application.
+This web application is designed to classify chest X-ray images into three categories: 'angry', 'disgust', 'fear', 'happy', 'neutral', 'sad' and 'surprise'. It uses a Convolutional Neural Network (CNN) built with TensorFlow and integrated into a Flask web application.
 
 ## Project Structure
 The project follows a standard Flask directory structure with additional directories and files:
@@ -15,7 +15,7 @@ The project follows a standard Flask directory structure with additional directo
   - **about.html:** About page template.
   - **index.html:** Main/home page template.
   - **main.html:** Another main or generic template.
-  - **emotion.html:** Template for a page related to symptoms.
+  - **emotion.html:** Template for a page related to emotions.
 
 - **Files:**
   - **prepros-6.config:** Configuration file for Prepros.
