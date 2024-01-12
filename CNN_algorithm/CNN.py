@@ -88,20 +88,17 @@ def pre_process():
     #normalize pixels: convert image range 0..1
     x_train = np.array(x_train) / 255.0
     x_test = np.array(x_test) / 255.0
-
     x_train = x_train.reshape(-1, img_size, img_size, 3)
     y_train = np.array(y_train)
-
     x_test = x_test.reshape(-1, img_size, img_size, 3)
     y_test = np.array(y_test)
-    ######################
     lb = LabelBinarizer()
     y_train_lb = lb.fit_transform(y_train)
     y_test_lb = lb.fit_transform(y_test)
     return x_test, y_test, y_test_lb, x_train, y_train, y_train_lb
 
 #build model
-def build_and_train_model(x_train, y_train_lb, x_test, y_test_lb,epochs=50, batch_size=32):
+def build_and_train_model(x_train, y_train_lb, x_test, y_test_lb,epochs=11, batch_size=32):
     #to create sequential model couche per couche
     model = Sequential()
     # Couche de convolution 1
@@ -116,7 +113,6 @@ def build_and_train_model(x_train, y_train_lb, x_test, y_test_lb,epochs=50, batc
     # Couche de convolution 4
     model.add(Conv2D(256, (3, 3), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
-    
     # Aplatir les données pour la couche dense
     model.add(Flatten())
     # Couche dense avec dropout pour éviter le surajustement
@@ -124,14 +120,11 @@ def build_and_train_model(x_train, y_train_lb, x_test, y_test_lb,epochs=50, batc
     model.add(Dense(512, activation='relu'))
     #dropout to disabled some percent of neurones to prevent overfitting
     model.add(Dropout(0.5))
-
     # Couche de sortie avec activation softmax pour la classification multi-classes
     #3 neurones
     model.add(Dense(7, activation='softmax'))
-
     # configure the model for training
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-
     # Afficher un résumé du modèle
     model.summary()
     #to save the best model sachant val_accuracy
@@ -143,7 +136,7 @@ def build_and_train_model(x_train, y_train_lb, x_test, y_test_lb,epochs=50, batc
     # Entraînement du modèle et stocker les données de chaque epoch
     for epoch in range(epochs):
         print("epoch: ", epoch+1)
-        history = model.fit(x_train, y_train_lb, epochs=50, validation_data=(x_test, y_test_lb), 
+        history = model.fit(x_train, y_train_lb, epochs=1, validation_data=(x_test, y_test_lb), 
                     batch_size=batch_size,verbose=1, callbacks=[checkpoint, earlystop])
         loss = history.history['loss'][0]
         accuracy = history.history['accuracy'][0]
@@ -177,10 +170,8 @@ def predict(model,x_test,y_test):
 
     with pd.ExcelWriter('model_performance.xlsx') as writer:
         epoch_df.to_excel(writer, sheet_name='Epoch Data', index=False)
-
         accuracy_df = pd.DataFrame({'Accuracy': [accuracy]})
         accuracy_df.to_excel(writer, sheet_name='Accuracy', index=False)
-
         conf_matrix_df = pd.DataFrame(conf_matrix, columns=class_names, index=class_names)
         conf_matrix_df.to_excel(writer, sheet_name='Confusion Matrix')
 

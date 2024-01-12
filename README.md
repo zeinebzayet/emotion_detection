@@ -15,7 +15,7 @@ The project follows a standard Flask directory structure with additional directo
   - **about.html:** About page template.
   - **index.html:** Main/home page template.
   - **main.html:** Another main or generic template.
-  - **symptoms.html:** Template for a page related to symptoms.
+  - **emotion.html:** Template for a page related to symptoms.
 
 - **Files:**
   - **prepros-6.config:** Configuration file for Prepros.

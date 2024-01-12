@@ -16,7 +16,7 @@ def about():
 
 @app.route('/symptoms',methods=['GET'])
 def traitement():
-    return render_template('symptoms.html')
+    return render_template('emotion.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -34,7 +34,7 @@ def upload_file():
 
             predicted_class = classify_an_image('static/images/img.png', model)
             print("Predicted Class:", predicted_class)
-            return render_template('symptoms.html', predicted_class=predicted_class, image_path='./static/images/img.png')
+            return render_template('emotion.html', predicted_class=predicted_class, image_path='./static/images/img.png')
         else:
             # Handle cases where no file was uploaded
             return render_template('error.html')
